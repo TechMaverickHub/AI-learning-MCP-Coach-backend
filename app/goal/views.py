@@ -8,6 +8,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from app.global_constants import SuccessMessage, ErrorMessage
 from app.goal.models import Goal
+from app.goal.rag_pipeline import generate_learning_suggestions
 from app.goal.serializers import GoalCreateSerializer, GoalDisplaySerializer, GoalUpdateSerializer
 from app.utils import get_response_schema
 from permissions import IsUser
@@ -105,3 +106,28 @@ class GoalDetailApiView(GenericAPIView):
         goal.save()
 
         return get_response_schema(None, SuccessMessage.RECORD_DELETED.value, status.HTTP_204_NO_CONTENT)
+
+
+class GoalGeneratePlanApiView(GenericAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsUser]
+
+    def get_object(self, pk):
+        goal_queryset = Goal.objects.filter(pk=pk, is_active=True, user_id=self.request.user.id)
+
+        if goal_queryset.exists():
+            return goal_queryset.first()
+
+        return None
+
+    def post(self, request, pk):
+        goal = self.get_object(pk)
+
+        if not goal:
+            return get_response_schema(None, ErrorMessage.NOT_FOUND.value, status.HTTP_404_NOT_FOUND)
+
+        plan = generate_learning_suggestions(goal.topic, goal.duration)
+
+        return_data = {"goal": goal.topic, "plan": plan, "duration": goal.duration}
+
+        return get_response_schema(return_data, SuccessMessage.RECORD_RETRIEVED.value, status.HTTP_200_OK)

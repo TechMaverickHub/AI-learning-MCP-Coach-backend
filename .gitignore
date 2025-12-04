@@ -82,3 +82,7 @@ __pycache__/
 # ---------------------------
 *.yml
 *.prof
+
+
+# Chroma DB
+chroma_store

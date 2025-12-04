@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'app.user',
     'app.role',
     'app.goal',
+    'app.ingest',
 ]
 
 MIDDLEWARE = [
