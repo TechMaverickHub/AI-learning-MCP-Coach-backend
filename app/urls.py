@@ -42,6 +42,7 @@ urlpatterns = [
 
     # App URLs
     path('api/user/', include('app.user.urls')),
+    path('api/goal/', include('app.goal.urls')),
 ]
 
 if settings.DEBUG:
