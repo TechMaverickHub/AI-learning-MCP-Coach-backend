@@ -262,8 +262,7 @@ class AdminListFilter(ListAPIView):
             is_active=True,
             role_id=GlobalValues.ADMIN.value
         ).only(
-            'email', 'first_name', 'last_name', 'username', 'bio',
-            'birth_date', 'location', 'website', 'profile_picture', 'last_active'
+            'email', 'first_name', 'last_name'
         ).order_by('-id')
 
         # Extract filters

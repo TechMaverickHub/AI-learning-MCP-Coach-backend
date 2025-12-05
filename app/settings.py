@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'app.role',
     'app.goal',
     'app.ingest',
+    'app.rss'
 ]
 
 MIDDLEWARE = [

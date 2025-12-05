@@ -44,6 +44,8 @@ urlpatterns = [
     path('api/user/', include('app.user.urls')),
     path('api/goal/', include('app.goal.urls')),
     path('api/ingest/', include('app.ingest.urls')),
+    path('api/rss/', include('app.rss.urls')),
+
 ]
 
 if settings.DEBUG:
